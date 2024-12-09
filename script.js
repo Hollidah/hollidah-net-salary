@@ -1,4 +1,4 @@
-
+    // Tax calculation 
 function calculateTax(income) {
     let tax = 0;
 
@@ -14,7 +14,7 @@ function calculateTax(income) {
     return tax;
 }
 
-
+    // NHIF Deduction 
 function calculateNHIF(income) {
     let nhifDeduction = 0;
     if (income <= 5999) {
@@ -34,33 +34,45 @@ function calculateNHIF(income) {
     } else if (income <= 49999) {
         nhifDeduction = 950;
     } else {
-        nhifDeduction = 1000; 
+        nhifDeduction = 1000; // for income above 50,000
+    }
     return nhifDeduction;
 }
+
+    // NSSF Deduction(6%)
+function calculateNSSF(income) {
+    return income * 0.06;  
 }
 
-function calculateNSSF(income) {
-    return income * 0.06; 
-
-
+    // Calculate Net Salary 
 function calculateNetSalary(basicSalary, benefits) {
-    const totalIncome = basicSalary + benefits;
+    if (basicSalary <= 0 || benefits < 0) {
+        console.log("Invalid input values");
+        return;
+    }
 
-   
-    const tax = calculateTax(totalIncome);
+    // Gross income (Basic + Benefits)
+    const totalIncome = basicSalary + benefits; 
+
+    // Calculate PAYE tax
+    const tax = calculateTax(totalIncome);  
+
+    // Calculate NHIF Deduction
     const nhifDeduction = calculateNHIF(totalIncome);
-    const nssfDeduction = calculateNSSF(totalIncome);
 
-    
+    // Calculate NSSF Deduction
+    const nssfDeduction = calculateNSSF(totalIncome);  
+
+    // Calculate Gross Salary (Basic Salary + Benefits)
     const grossSalary = totalIncome;
 
-    
+    // Total deductions
     const totalDeductions = tax + nhifDeduction + nssfDeduction;
 
-   
+    // Net Salary 
     const netSalary = grossSalary - totalDeductions;
 
-   
+    
     console.log(`Basic Salary: KES ${basicSalary}`);
     console.log(`Benefits: KES ${benefits}`);
     console.log(`Gross Salary: KES ${grossSalary}`);
@@ -68,5 +80,4 @@ function calculateNetSalary(basicSalary, benefits) {
     console.log(`NHIF Deduction: KES ${nhifDeduction}`);
     console.log(`NSSF Deduction: KES ${nssfDeduction}`);
     console.log(`Net Salary: KES ${netSalary}`);
-}
 }
